@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Scanner; // TODO Scanner, numflip(maybe), update description comments, formatting, AI.
+import java.util.Scanner; // TODO update description comments, formatting, AI.
 public class Reversi{
     private Scanner input;
     private ArrayList<String> goodInputs;

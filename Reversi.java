@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner; // TODO update description comments, formatting, AI.
 public class Reversi{
-    private Scanner input;
+    private final Scanner input;
     private ArrayList<String> goodInputs;
     private TextIO instance;
     private char cPlayer; // Char variable for the current player. Always either [@] or [O].
     private TernaryBoard tBoard; // Ternary Board object to represent the game board.
     private boolean debug; // It provides useful information about each move in real time.
-    private String splashImage = 
+    private final String SPLASHIMAGE = 
     "****    *****   *   *   *****   ****      ***   *****\n" + 
     "*   *   *       *   *   *       *   *    *        *\n" + 
     "*   *   *       *   *   *       *   *   *         *\n" + 
@@ -26,7 +26,7 @@ public class Reversi{
                 goodInputs.add(addition);
             }
         }
-        instance = new TextIO(goodInputs, splashImage, "Thanks for playing Reversi!");
+        instance = new TextIO(goodInputs, SPLASHIMAGE, "Thanks for playing Reversi!");
         
         tBoard = new TernaryBoard(8, 8);
         cPlayer = '@'; // Black is the current player at the start of the game.
@@ -452,11 +452,8 @@ public class Reversi{
         this.tBoard.set(4, 3, '@');
         this.tBoard.set(3, 4, '@');
         this.tBoard.set(4, 4, 'O');
-        System.out.println(splashImage);
-        System.out.println(this);
+        System.out.println(SPLASHIMAGE);
         this.updateGoodInputs();
-        for(String x : goodInputs)
-            System.out.println(x);
         String in = "start";
         int x = -1;
         int y = -1;

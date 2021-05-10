@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner; // TODO update description comments, formatting, AI.
 public class Reversi{
-    private final Scanner input;
-    private ArrayList<String> goodInputs;
-    private TextIO instance;
+    private Scanner input; // The game's input Scanner.
+    private ArrayList<String> goodInputs; // Available valid spaces depending on the current player, should be updated every turn.
+    private TextIO instance; // TextIO object used to test for good inputs.
     private char cPlayer; // Char variable for the current player. Always either [@] or [O].
     private TernaryBoard tBoard; // Ternary Board object to represent the game board.
     private boolean debug; // It provides useful information about each move in real time.
@@ -17,7 +17,7 @@ public class Reversi{
     "*   *   *****     *     *****   *   *   ***     *****\n";
     
 
-    public Reversi(){
+    public Reversi(){ // No argument Reversi constructor.
         input = new Scanner(System.in);
         goodInputs = new ArrayList<String>();
         for(int i = 0; i < 8; i++){
@@ -30,16 +30,21 @@ public class Reversi{
         
         tBoard = new TernaryBoard(8, 8);
         cPlayer = '@'; // Black is the current player at the start of the game.
-        debug = false; // Debug is off by default. use the .default() method to enable it.
+        debug = false; // Debug is off by default. use the .debug() method to enable it.
     }
 
-    public void debug(){this.debug = true;}
+    public void debug(){ // Toggles debug mode on and off for a Reversi instance.
+        if(this.debug = false)
+            this.debug = true;
 
-    public int checkHL(int x, int y){
+        else if(this.debug = true)
+            this.debug = false;
+    }
+
+    public int checkHL(int x, int y){ // Flips tiles to the left of a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
 
-        // Check to flip diagonaly Upwards and to the right. Working after being remade 3 times on a thursday.
         int bound = x;
         if(x == 0)
             return 0;
@@ -71,11 +76,10 @@ public class Reversi{
         return flips;
     }
 
-    public int checkHR(int x, int y){ // Done
+    public int checkHR(int x, int y){ // Flips tiles to the right of a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
 
-        // Check to flip diagonaly Upwards and to the right. Working after being remade 3 times on a thursday.
         int bound = x;
         if(x == this.tBoard.cols() - 1)
             return 0;
@@ -107,11 +111,10 @@ public class Reversi{
         return flips;
     }
 
-    public int checkVU(int x, int y){ // Done
+    public int checkVU(int x, int y){ // Flips tiles above a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
 
-        // Check to flip diagonaly Upwards and to the right. Working after being reworked 3 times on a thursday.
         int bound = y;
         if(y == 0)
             return 0;
@@ -143,11 +146,10 @@ public class Reversi{
         return flips;
     }
 
-    public int checkVD(int x, int y){ // Done
+    public int checkVD(int x, int y){ // Flips tiles below a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
 
-        // Check to flip diagonaly Upwards and to the right. Working after being remade 3 times on a thursday.
         int bound = y;
         if(y == this.tBoard.rows() - 1)
             return 0;
@@ -179,11 +181,10 @@ public class Reversi{
         return flips;
     }
 
-    public int checkDiagDR(int x, int y){ // Done
+    public int checkDiagDR(int x, int y){ // Flips tiles below and to the right of a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
 
-        // Check to flip diagonaly Upwards and to the right. Working after being remade 3 times on a thursday.
         int bound = y;
         if(x == this.tBoard.cols() - 1 || y == this.tBoard.rows() - 1)
             return 0;
@@ -219,11 +220,10 @@ public class Reversi{
         return flips;
     }
 
-    public int checkDiagUL(int x, int y){ // Done
+    public int checkDiagUL(int x, int y){ // Flips tiles above and to the left of a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
 
-        // Check to flip diagonaly Upwards and to the right. Working after being remade 3 times on a thursday.
         int bound = y;
         if(x == 0 || y == 0)
             return 0;
@@ -259,12 +259,10 @@ public class Reversi{
         return flips;
     }
 
-    public int checkDiagDL(int x, int y){ // Done
+    public int checkDiagDL(int x, int y){ // Flips tiles below and to the left of a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
         
-
-        // Check to flip diagonaly downwards and to the left. Working
         int bound = y;
         int nx;
         if(x == 0 || y == this.tBoard.rows() - 1)
@@ -302,7 +300,7 @@ public class Reversi{
         return flips;
     }
 
-    public int checkDiagUR(int x, int y){ // Done
+    public int checkDiagUR(int x, int y){ // Flips tiles above and to the right of a placed tile.
         int flips = 0;
         char opponent = this.getOpponent();
 
@@ -344,11 +342,9 @@ public class Reversi{
         return flips;
     }
 
-    // Place a piece at coordinates x, y. Flips all pieces that are affected.
-    public int placePiece(int x, int y, boolean c){
-        // TODO if(valid space)
+    public int placePiece(int x, int y, boolean c){ // Place a piece at coordinates x, y. Flips all pieces that are affected.
             this.tBoard.set(x, y, cPlayer);
-            if(!c)
+            if(!c) // c is a checking variable for isValidSpace(). PlacePiece not debug or output game info when checking.
                 System.out.println("Set space (" + x + ", " + y + ") to: " + "[" + cPlayer+ "]");
 
 
@@ -395,12 +391,12 @@ public class Reversi{
             return totalFlipped;
     }
 
-    public void checkAndPlacePiece(int x, int y){
+    public void checkAndPlacePiece(int x, int y){ // Places piece if slot is available and valid.
         if(this.isValidSpace(x, y))
             this.placePiece(x, y, false);
     }
 
-    public static Reversi copy(Reversi other){
+    public static Reversi copy(Reversi other){ // Returns a copy of a Reversi object.
         Reversi output = new Reversi();
         output.cPlayer = other.cPlayer;
         output.tBoard = TernaryBoard.copy(other.tBoard);
@@ -408,7 +404,7 @@ public class Reversi{
         return output;
     }
 
-    public boolean isValidSpace(int x, int y){
+    public boolean isValidSpace(int x, int y){ // Checks whether a move will cause other tiles to flip.
         if(x < 0 || y < 0 || x > 7 || y > 7)
             return false;
         Reversi temp = copy(this);
@@ -418,8 +414,8 @@ public class Reversi{
         return false;
     }
 
-    public void updateGoodInputs(){
-        ArrayList<String> nArr = new ArrayList<String>();;
+    public void updateGoodInputs(){ // Updates goodInputs ArrayList after each turn.
+        ArrayList<String> nArr = new ArrayList<String>();
         
         for(int i = 0; i < 8; i ++){
             for(int j = 0; j < 8; j++){
@@ -434,7 +430,7 @@ public class Reversi{
 
     
 
-    public char getOpponent(){
+    public char getOpponent(){ // Returns current opponent.
         if(this.cPlayer == '@')
             return 'O';
         return '@';
@@ -455,49 +451,61 @@ public class Reversi{
         System.out.println(SPLASHIMAGE);
         this.updateGoodInputs();
         String in = "start";
+        String players = "start";
         int x = -1;
         int y = -1;
 
-        System.out.println(this);
-        while(!in.equals("quit") && !this.tBoard.isFull()){
-            String choices = TextIO.oxfordComma(this.goodInputs);
-            if(goodInputs.size() == 0){
-                System.out.println(cPlayer + " has no possible moves... switching player to " + this.getOpponent() + "...");
-                this.changePlayer();
-                this.updateGoodInputs();
-                choices = TextIO.oxfordComma(this.goodInputs);
-            }
-            System.out.println("It is " + cPlayer + "\'s turn!" + "\n" + "Please Enter your choice (as x, y) (Type \"quit\" to quit): ");
-            System.out.println("Possible choices: " + choices);
-            while(!instance.isGoodInput(in)){
-                    in = input.nextLine();
-                    if(in.equals("quit"))
-                        break;
-                if(!instance.isGoodInput(in))
-                    System.out.println("Make sure that your choice is valid and formatted correctly (x, y) and enter it again: (Type \"quit\" to quit)");
-            }
-            if(!in.equals("quit")){
-                int[] coords = getCoords(in);
-                x = coords[0];
-                y = coords[1];
-                System.out.println("Player: " + cPlayer + " chose: " + in);
-                System.out.println(this);
-                this.checkAndPlacePiece(x, y);
-                System.out.println(this);
-                if(this.tBoard.isFull())
-                    break;
-                this.changePlayer();
-                this.updateGoodInputs();
-            }
+        System.out.println("How many players? (enter \"1\", or \"2\") (Type \"quit\" to quit):");
+        players = input.nextLine();
+        while(!players.equals("1") && !players.equals("2") && !players.equals("quit")){
+            System.out.println("Please enter \"1\" or \"2\" (Type \"quit\" to quit):");
+            players = input.nextLine();
         }
-        int cb = this.tBoard.countBlack();
-        int cw = this.tBoard.countWhite();
-        if(cb == cw)
-            System.out.println("Tie!");
-        else if(cb > cw)
-            System.out.println("[@] Wins! ( @ = " + cb + " : O = " + cw + ")");
-        else if(cw > cb)
-            System.out.println("[O] Wins! ( @ = " + cb + " : O = " + cw + ")");
+        if(players.equals("1")){
+            //1 PLayer Mode
+        }
+        else if(players.equals("2")){
+            System.out.println(this);
+            while(!in.equals("quit") && !this.tBoard.isFull()){
+                String choices = TextIO.oxfordComma(this.goodInputs);
+                if(goodInputs.size() == 0){
+                    System.out.println(cPlayer + " has no possible moves... switching player to " + this.getOpponent() + "...");
+                    this.changePlayer();
+                    this.updateGoodInputs();
+                    choices = TextIO.oxfordComma(this.goodInputs);
+                }
+                System.out.println("It is " + cPlayer + "\'s turn!" + "\n" + "Please Enter your choice (as x, y) (Type \"quit\" to quit): ");
+                System.out.println("Possible choices: " + choices);
+                while(!instance.isGoodInput(in)){
+                        in = input.nextLine();
+                        if(in.equals("quit"))
+                            break;
+                    if(!instance.isGoodInput(in))
+                        System.out.println("Make sure that your choice is valid and formatted correctly (x, y) and enter it again: (Type \"quit\" to quit)");
+                }
+                if(!in.equals("quit")){
+                    int[] coords = getCoords(in);
+                    x = coords[0];
+                    y = coords[1];
+                    System.out.println("Player: " + cPlayer + " chose: " + in);
+                    //System.out.println(this);
+                    this.checkAndPlacePiece(x, y);
+                    System.out.println(this);
+                    if(this.tBoard.isFull())
+                        break;
+                    this.changePlayer();
+                    this.updateGoodInputs();
+                }
+            }
+            int cb = this.tBoard.countBlack();
+            int cw = this.tBoard.countWhite();
+            if(cb == cw)
+                System.out.println("Tie!");
+            else if(cb > cw)
+                System.out.println("[@] Wins! ( @ = " + cb + " : O = " + cw + " )");
+            else if(cw > cb)
+                System.out.println("[O] Wins! ( @ = " + cb + " : O = " + cw + " )");
+        }
     }
 
     public static int[] getCoords(String in){

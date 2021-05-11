@@ -33,13 +33,9 @@ public class Reversi{
         debug = false; // Debug is off by default. use the .debug() method to enable it.
     }
 
-    public void debug(){ // Toggles debug mode on and off for a Reversi instance.
-        if(this.debug = false)
-            this.debug = true;
+    public void debugOn(){this.debug = true;} // Toggles debug mode on for a Reversi instance.
 
-        else if(this.debug = true)
-            this.debug = false;
-    }
+    public void debugOff(){this.debug = false;} // Toggles debug mode off for a Reversi instance.
 
     public int checkHL(int x, int y){ // Flips tiles to the left of a placed tile.
         int flips = 0;
@@ -436,14 +432,14 @@ public class Reversi{
         return '@';
     }
 
-    public void changePlayer(){
+    public void changePlayer(){ // Switches the cPlayer to the opposite playyer. (if [@], then [O] and vice versa)
         if(cPlayer == '@')
             this.cPlayer = 'O';
         else 
             this.cPlayer = '@';
     }
 
-    public void play(){
+    public void play(){ // Contains all code required to run in a game of Reversi.
         this.tBoard.set(3, 3, 'O');
         this.tBoard.set(4, 3, '@');
         this.tBoard.set(3, 4, '@');
@@ -462,7 +458,7 @@ public class Reversi{
             players = input.nextLine();
         }
         if(players.equals("1")){
-            //1 PLayer Mode
+            //TODO 1 PLayer Mode
         }
         else if(players.equals("2")){
             System.out.println(this);
@@ -488,7 +484,6 @@ public class Reversi{
                     x = coords[0];
                     y = coords[1];
                     System.out.println("Player: " + cPlayer + " chose: " + in);
-                    //System.out.println(this);
                     this.checkAndPlacePiece(x, y);
                     System.out.println(this);
                     if(this.tBoard.isFull())
@@ -508,18 +503,23 @@ public class Reversi{
         }
     }
 
-    public static int[] getCoords(String in){
+    public static int[] getCoords(String in){ // Accepts a String in the format: x, y where x and y are integers anc returns an array of length 2 of x at index 0 and y at index 1.
         int[] output = new int[2];
         output[0] = Integer.parseInt(in.substring(0, 1));
         output[1] = Integer.parseInt(in.substring(3, 4));
         return output;
     }
 
-    public String toString(){return this.tBoard.toString();}
+    public String toString(){ // Prints the desired game's TernaryBoard object and the current game's score.
+        String output = "\n  [@]: " + this.tBoard.countBlack() + "\t[O]: "+ this.tBoard.countWhite() + "\n";
+        output += this.tBoard.toString();
+        return output;
+    }
 
     public static void main(String[] args){
         Reversi r = new Reversi();
-        //r.debug();
+        r.debugOn();
+        r.debugOff();
         r.play();
         
     }

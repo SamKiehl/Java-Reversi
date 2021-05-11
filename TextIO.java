@@ -38,7 +38,9 @@ public class TextIO {
         output += "[" + items.get(i) + "], ";
       }
       else if(i == len - 1) {
-        output += "or [" + items.get(i);
+        if(len > 1)
+          output += "or ";
+        output += "[" + items.get(i);
       }
     }
     return output + "]";

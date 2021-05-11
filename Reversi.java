@@ -403,11 +403,16 @@ public class Reversi{
     public boolean isValidSpace(int x, int y){ // Checks whether a move will cause other tiles to flip.
         if(x < 0 || y < 0 || x > 7 || y > 7)
             return false;
-        Reversi temp = copy(this);
-        int totalFlipped = temp.placePiece(x, y, true);
-        if(totalFlipped > 0 && this.tBoard.get(x, y) == ' ')
+        if(this.flips(x, y) > 0 && this.tBoard.get(x, y) == ' ')
             return true;
         return false;
+    }
+
+    public int flips(int x, int y){
+        Reversi temp = copy(this);
+        int totalFlipped = temp.placePiece(x, y, true);
+        temp = null;
+        return totalFlipped;
     }
 
     public void updateGoodInputs(){ // Updates goodInputs ArrayList after each turn.
@@ -422,6 +427,7 @@ public class Reversi{
         }
         this.goodInputs = nArr;
         this.instance.setGoodInputs(nArr);
+        nArr = null;
     }
 
     
@@ -458,7 +464,73 @@ public class Reversi{
             players = input.nextLine();
         }
         if(players.equals("1")){
-            //TODO 1 PLayer Mode
+            //TODO 1 PLayer Mode There is an infinite loop somewhere
+            System.out.println(this);
+            while(!in.equals("quit") && !this.tBoard.isFull()){
+                this.updateGoodInputs();
+                String choices = TextIO.oxfordComma(this.goodInputs);
+                if(goodInputs.size() == 0){
+                    System.out.println(cPlayer + " has no possible moves... switching player to " + this.getOpponent() + "...");
+                    this.changePlayer();
+                    this.updateGoodInputs();
+                    choices = TextIO.oxfordComma(this.goodInputs);
+                }
+                if(cPlayer == '@'){
+                    System.out.println("It is " + cPlayer + "\'s turn!" + "\n" + "Please Enter your choice (as x, y) (Type \"quit\" to quit): ");
+                    System.out.println("Possible choices: " + choices);
+                    while(!instance.isGoodInput(in)){
+                            in = input.nextLine();
+                            if(in.equals("quit"))
+                                break;
+                        if(!instance.isGoodInput(in))
+                            System.out.println("Make sure that your choice is valid and formatted correctly (x, y) and enter it again: (Type \"quit\" to quit)");
+                    }
+                    if(!in.equals("quit")){
+                        int[] coords = getCoords(in);
+                        x = coords[0];
+                        y = coords[1];
+                        System.out.println("Player: " + cPlayer + " chose: " + in);
+                        this.checkAndPlacePiece(x, y);
+                        System.out.println(this);
+                        if(this.tBoard.isFull())
+                            break;
+                        this.changePlayer();
+                        this.updateGoodInputs();
+                        
+                    }
+                }
+                else if(this.cPlayer == 'O'){
+                    System.out.println("It is " + cPlayer + "\'s turn!" + "\n" + "Please Enter your choice (as x, y) (Type \"quit\" to quit): ");
+                    System.out.println("Possible choices: " + choices);
+                    if(goodInputs.size() == 0){
+                        break;
+                    }
+                    int max = 0;
+                    int[] best = {-1, -1};
+                    for(String m : goodInputs){
+                        int[] move = getCoords(m);
+                        if(this.flips(move[0], move[1]) > max){
+                            max = this.flips(move[0], move[1]);
+                            best = move;
+                        }
+                    }
+                    System.out.println("Player: " + cPlayer + " chose: " + best[0] + ", " + best[1]);
+                    this.checkAndPlacePiece(best[0], best[1]);
+                    System.out.println(this);
+                    this.changePlayer();
+                    this.updateGoodInputs();
+                    //break;
+                    
+                }
+            }
+            int cb = this.tBoard.countBlack();
+            int cw = this.tBoard.countWhite();
+            if(cb == cw)
+                System.out.println("Tie!");
+            else if(cb > cw)
+                System.out.println("[@] Wins! ( @ = " + cb + " : O = " + cw + " )");
+            else if(cw > cb)
+                System.out.println("[O] Wins! ( @ = " + cb + " : O = " + cw + " )");
         }
         else if(players.equals("2")){
             System.out.println(this);

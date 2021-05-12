@@ -472,6 +472,8 @@ public class Reversi{
                     System.out.println(cPlayer + " has no possible moves... switching player to " + this.getOpponent() + "...");
                     this.changePlayer();
                     this.updateGoodInputs();
+                    if(this.goodInputs.size() == 0)
+                        break;
                     choices = TextIO.oxfordComma(this.goodInputs);
                 }
                 if(cPlayer == '@'){

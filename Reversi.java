@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Scanner; // TODO update description comments, formatting, AI.
+import java.util.Scanner;
 public class Reversi{
     private Scanner input; // The game's input Scanner.
     private ArrayList<String> goodInputs; // Available valid spaces depending on the current player, should be updated every turn.
@@ -464,7 +464,6 @@ public class Reversi{
             players = input.nextLine();
         }
         if(players.equals("1")){
-            //TODO 1 PLayer Mode There is an infinite loop somewhere
             System.out.println(this);
             while(!in.equals("quit") && !this.tBoard.isFull()){
                 this.updateGoodInputs();
@@ -593,6 +592,5 @@ public class Reversi{
         r.debugOn();
         r.debugOff();
         r.play();
-        
     }
 }

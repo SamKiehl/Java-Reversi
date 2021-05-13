@@ -7,7 +7,7 @@ public class Reversi{
     private char cPlayer; // Char variable for the current player. Always either [@] or [O].
     private TernaryBoard tBoard; // Ternary Board object to represent the game board.
     private boolean debug; // It provides useful information about each move in real time.
-    private final String SPLASHIMAGE = 
+    private final String SPLASHIMAGE =  
     "****    *****   *   *   *****   ****      ***   *****\n" + 
     "*   *   *       *   *   *       *   *    *        *\n" + 
     "*   *   *       *   *   *       *   *   *         *\n" + 
@@ -16,7 +16,6 @@ public class Reversi{
     "*   *   *        * *    *       *   *      *      *\n" + 
     "*   *   *****     *     *****   *   *   ***     *****\n";
     
-
     public Reversi(){ // No argument Reversi constructor.
         input = new Scanner(System.in);
         goodInputs = new ArrayList<String>();

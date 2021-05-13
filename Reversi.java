@@ -590,8 +590,10 @@ public class Reversi{
 
     public static void main(String[] args){
         Reversi r = new Reversi();
+        /*
         r.debugOn();
         r.debugOff();
+        */
         r.play();
     }
 }
